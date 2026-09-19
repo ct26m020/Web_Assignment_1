@@ -2,7 +2,7 @@
 import TodoItem from './TodoItem.vue';
 import type { Todo } from '../types/todo';
 
-const emit = defineEmits(['delete-todo']);
+const emit = defineEmits(['delete-todo', 'toggle-todo']);
 
 const props = defineProps({
     todos: {
@@ -10,6 +10,10 @@ const props = defineProps({
         required: true,
     },
 });
+
+function toggleTodo(id: number) {
+    emit('toggle-todo', id);
+}
 
 function deleteTodo(id: number) {
     emit('delete-todo', id);
@@ -21,6 +25,6 @@ function deleteTodo(id: number) {
             <span class="error">No todos yet!</span>
         </div>
         <div class="todo-list" v-else>
-            <TodoItem  :todo="todo" @delete-todo="deleteTodo" v-for="todo in todos" :key="todo.id"/>
+            <TodoItem  :todo="todo" @delete-todo="deleteTodo" @toggle-todo="toggleTodo" v-for="todo in todos" :key="todo.id"/>
         </div>
 </template>
